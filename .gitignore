@@ -1,0 +1,14 @@
+# Archivos de trabajo que no se publican (quedan solo en la computadora)
+
+# página para comparar logos
+opciones-logo.html
+
+# logos descartados y archivos intermedios del logo
+assets/rosa.svg
+assets/logo-rosa.png
+assets/logo-original.png
+assets/logo-linea.png
+assets/logo-linea-azul.png
+
+# imagen original del logo (fuente para generar variantes)
+assets/logo-linea-original.jpg

@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Blue Rose · Apps a medida</title>
+  <meta name="description" content="Blue Rose crea aplicaciones a medida para negocios: turneros, paneles de gestión y más.">
+  <meta name="theme-color" content="#070b1a">
+
+  <!-- Vista previa al compartir el link (WhatsApp, Instagram, etc.) -->
+  <meta property="og:title" content="Blue Rose · Apps a medida">
+  <meta property="og:description" content="Aplicaciones creadas para tu negocio. Mirá cómo funcionan.">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="assets/logo-blue-rose-chico.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    // La intro solo se muestra con JS activo y una vez por visita
+    document.documentElement.classList.add("js");
+    try { if (sessionStorage.getItem("intro-vista")) document.documentElement.classList.add("intro-vista"); } catch (e) {}
+    // Tema: oscuro por defecto, claro si el visitante lo eligió antes
+    try { if (localStorage.getItem("tema") === "claro") document.documentElement.dataset.theme = "light"; } catch (e) {}
+  </script>
+</head>
+<body>
+
+  <!-- ============ INTRO: mantener presionada la rosa para entrar ============ -->
+  <div class="intro" id="intro">
+    <div class="intro__stage">
+      <button class="intro__hold" type="button" aria-label="Mantené presionada la rosa para entrar">
+        <svg class="intro__ring" viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#5ee1ff"/>
+              <stop offset=".5" stop-color="#3b6cff"/>
+              <stop offset="1" stop-color="#8b7bff"/>
+            </linearGradient>
+          </defs>
+          <circle class="intro__track" cx="100" cy="100" r="92"/>
+          <circle class="intro__progress" cx="100" cy="100" r="92" pathLength="100"/>
+        </svg>
+        <img src="assets/logo-blue-rose-chico.png" alt="" width="270" height="340" draggable="false">
+      </button>
+      <div class="intro__burst" aria-hidden="true"></div>
+    </div>
+    <p class="intro__name">Blue Rose</p>
+    <p class="intro__hint">Mantené presionada la rosa</p>
+    <button class="intro__skip" type="button">Saltar</button>
+  </div>
+
+  <!-- ============ DATOS DE CONTACTO ============
+       Cambiá el número y el usuario en los links de abajo:
+       WhatsApp:  https://wa.me/549XXXXXXXXXX   (código país + área + número, sin + ni espacios)
+       Instagram: https://instagram.com/TU_USUARIO
+  ============================================= -->
+
+  <header class="topbar">
+    <a href="#inicio" class="brand" aria-label="Blue Rose, inicio">
+      <img src="assets/logo-blue-rose-chico.png" alt="" width="28" height="35">
+      <span>Blue Rose</span>
+    </a>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Cambiar a modo claro">
+      <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+    </button>
+  </header>
+
+  <!-- Pétalos azules que caen de fondo -->
+  <canvas class="petals" id="petals" aria-hidden="true"></canvas>
+
+  <main>
+    <!-- ============ INICIO ============ -->
+    <section class="hero" id="inicio">
+      <!-- Pistas de circuito que llevan "energía" hacia la rosa -->
+      <svg class="hero__circuit" viewBox="0 0 400 700" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+        <g class="circuit__traces">
+          <path d="M0 90H60L100 130H140"/>
+          <path d="M0 210H80L100 230H128"/>
+          <path d="M40 0V30L70 60V100L90 120"/>
+          <path d="M0 520H30L50 540V700"/>
+          <path d="M400 90H340L300 130H260"/>
+          <path d="M400 210H320L300 230H272"/>
+          <path d="M360 0V30L330 60V100L310 120"/>
+          <path d="M400 520H370L350 540V700"/>
+        </g>
+        <g class="circuit__pulses">
+          <path d="M0 90H60L100 130H140" pathLength="100" style="--d: 0s"/>
+          <path d="M400 210H320L300 230H272" pathLength="100" style="--d: .8s"/>
+          <path d="M40 0V30L70 60V100L90 120" pathLength="100" style="--d: 1.6s"/>
+          <path d="M400 90H340L300 130H260" pathLength="100" style="--d: 2.4s"/>
+          <path d="M0 210H80L100 230H128" pathLength="100" style="--d: 3.2s"/>
+          <path d="M360 0V30L330 60V100L310 120" pathLength="100" style="--d: 4s"/>
+        </g>
+        <g class="circuit__nodes">
+          <circle cx="140" cy="130" r="4"/>
+          <circle cx="128" cy="230" r="4"/>
+          <circle cx="90" cy="120" r="3.5"/>
+          <circle cx="260" cy="130" r="4"/>
+          <circle cx="272" cy="230" r="4"/>
+          <circle cx="310" cy="120" r="3.5"/>
+          <circle cx="60" cy="90" r="2.5"/>
+          <circle cx="340" cy="90" r="2.5"/>
+          <circle cx="30" cy="520" r="2.5"/>
+          <circle cx="370" cy="520" r="2.5"/>
+        </g>
+      </svg>
+      <div class="hero__glow" aria-hidden="true"></div>
+      <img class="hero__rose" src="assets/logo-blue-rose.png" alt="Logo de Blue Rose: una rosa azul con corona dorada" width="270" height="595">
+      <h1 class="hero__title">Blue Rose</h1>
+      <p class="hero__lead">
+        Aplicaciones a medida para tu
+        <span class="rotator" id="rotator">negocio</span>
+      </p>
+      <p class="hero__quote">Las rosas azules no existen en la naturaleza: <strong>se crean</strong>. Con las apps pasa lo mismo.</p>
+      <div class="hero__actions">
+        <a href="#apps" class="btn btn--primary">Ver aplicaciones</a>
+      </div>
+      <a href="#apps" class="hero__scroll" aria-label="Bajar a las aplicaciones">
+        <span></span>
+      </a>
+    </section>
+
+    <!-- ============ APLICACIONES ============ -->
+    <section class="apps" id="apps">
+      <header class="section-head">
+        <p class="eyebrow">Mis aplicaciones</p>
+        <h2>Lo que ya está funcionando</h2>
+        <p class="section-head__sub">Tocá una app para ver cómo funciona.</p>
+      </header>
+
+      <!-- ---------- APP 1: TURNERO ---------- -->
+      <article class="app reveal" id="turnero">
+        <button class="app__toggle" type="button" aria-expanded="false" aria-controls="turnero-body">
+          <span class="app__icon" aria-hidden="true">✂</span>
+          <span class="app__title">
+            <span class="tag">Peluquerías · Barberías</span>
+            <strong>Turnero online</strong>
+          </span>
+          <span class="app__chevron" aria-hidden="true"></span>
+        </button>
+
+        <div class="app__body" id="turnero-body">
+        <div class="app__inner">
+        <p class="app__desc">Tus clientes sacan turno desde una página web, sin llamar ni escribir. Cada barbero recibe el turno al instante en su celular, en una app propia.</p>
+
+        <div class="video">
+          <video controls playsinline preload="metadata" poster="assets/turnero/portada.jpg">
+            <source src="assets/turnero/demo.webm" type="video/webm">
+          </video>
+        </div>
+
+        <h4 class="subhead">¿Cómo funciona?</h4>
+        <ol class="steps">
+          <li>
+            <strong>El cliente entra a la web</strong>
+            <span>Elige servicio, barbero, día y horario disponible.</span>
+          </li>
+          <li>
+            <strong>Confirma su turno</strong>
+            <span>Deja su nombre y contacto. Listo, sin esperas.</span>
+          </li>
+          <li>
+            <strong>Le llega al barbero</strong>
+            <span>El turno aparece en la app del barbero en su celular.</span>
+          </li>
+        </ol>
+
+        <h4 class="subhead">Capturas</h4>
+        <div class="gallery" data-gallery>
+          <figure><img src="assets/turnero/captura-1.jpg" alt="Turnero: elegir servicio" loading="lazy"><figcaption>Elegir servicio</figcaption></figure>
+          <figure><img src="assets/turnero/captura-2.jpg" alt="Turnero: elegir horario" loading="lazy"><figcaption>Elegir horario</figcaption></figure>
+          <figure><img src="assets/turnero/captura-3.jpg" alt="Turnero: confirmación" loading="lazy"><figcaption>Confirmación</figcaption></figure>
+          <figure><img src="assets/turnero/captura-4.jpg" alt="App del barbero: turnos del día" loading="lazy"><figcaption>App del barbero</figcaption></figure>
+        </div>
+
+        <ul class="chips">
+          <li>Web para clientes</li>
+          <li>App Android para barberos</li>
+          <li>Turnos en tiempo real</li>
+          <li>Varios barberos</li>
+        </ul>
+        </div>
+        </div>
+      </article>
+
+      <!-- ---------- APP 2: PANEL DESPENSA ---------- -->
+      <article class="app reveal" id="despensa">
+        <button class="app__toggle" type="button" aria-expanded="false" aria-controls="despensa-body">
+          <span class="app__icon" aria-hidden="true">▤</span>
+          <span class="app__title">
+            <span class="tag">Despensas · Almacenes</span>
+            <strong>Panel de gestión</strong>
+          </span>
+          <span class="app__chevron" aria-hidden="true"></span>
+        </button>
+
+        <div class="app__body" id="despensa-body">
+        <div class="app__inner">
+        <p class="app__desc">Un panel web para manejar tu negocio desde cualquier dispositivo: productos, precios y quién trabaja en cada momento.</p>
+
+        <div class="video">
+          <video controls playsinline preload="metadata" poster="assets/despensa/portada.jpg">
+            <source src="assets/despensa/demo.webm" type="video/webm">
+          </video>
+        </div>
+
+        <h4 class="subhead">¿Cómo funciona?</h4>
+        <ol class="steps">
+          <li>
+            <strong>Cargás tus productos</strong>
+            <span>Alta, baja y modificación de productos en segundos.</span>
+          </li>
+          <li>
+            <strong>Actualizás precios</strong>
+            <span>Cambiá un precio y queda al día para todos.</span>
+          </li>
+          <li>
+            <strong>Controlás a tu equipo</strong>
+            <span>Sabé quién trabaja y qué hace cada uno.</span>
+          </li>
+        </ol>
+
+        <h4 class="subhead">Capturas</h4>
+        <div class="gallery gallery--wide" data-gallery>
+          <figure><img src="assets/despensa/captura-1.jpg" alt="Panel: listado de productos" loading="lazy"><figcaption>Listado de productos</figcaption></figure>
+          <figure><img src="assets/despensa/captura-2.jpg" alt="Panel: editar producto y precio" loading="lazy"><figcaption>Editar producto</figcaption></figure>
+          <figure><img src="assets/despensa/captura-3.jpg" alt="Panel: control de empleados" loading="lazy"><figcaption>Control de empleados</figcaption></figure>
+        </div>
+
+        <ul class="chips">
+          <li>Alta / baja / modificación</li>
+          <li>Gestión de precios</li>
+          <li>Control de empleados</li>
+          <li>Funciona en PC y celular</li>
+        </ul>
+        </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ CÓMO TRABAJO ============ -->
+    <section class="process" id="proceso">
+      <header class="section-head reveal">
+        <p class="eyebrow">Cómo trabajo</p>
+        <h2>De la idea a tu app</h2>
+      </header>
+
+      <ol class="timeline">
+        <li class="reveal">
+          <span class="timeline__icon" aria-hidden="true">💬</span>
+          <strong>Me contás tu idea</strong>
+          <span>Charlamos qué necesita tu negocio y cómo trabajás hoy.</span>
+        </li>
+        <li class="reveal">
+          <span class="timeline__icon" aria-hidden="true">✏️</span>
+          <strong>La diseño a tu medida</strong>
+          <span>Te muestro cómo se va a ver antes de empezar a programar.</span>
+        </li>
+        <li class="reveal">
+          <span class="timeline__icon" aria-hidden="true">⚙️</span>
+          <strong>La desarrollo</strong>
+          <span>Web, app para Android o panel de gestión, según lo que necesites.</span>
+        </li>
+        <li class="reveal">
+          <span class="timeline__icon" aria-hidden="true">🌹</span>
+          <strong>Te la entrego y te acompaño</strong>
+          <span>Te enseño a usarla y quedo disponible para ajustes.</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ CONTACTO ============ -->
+    <section class="contact reveal" id="contacto">
+      <header class="section-head">
+        <p class="eyebrow">Contacto</p>
+        <h2>¿Tenés una idea para tu negocio?</h2>
+        <p class="section-head__sub">Contame qué necesitás y lo armamos a tu medida.</p>
+      </header>
+
+      <div class="contact__links">
+        <a class="contact-card contact-card--wa" href="https://wa.me/5493885737477?text=Hola%20Blue%20Rose!%20Quiero%20consultar%20por%20una%20app" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.3Z"/></svg>
+          <span>
+            <strong>WhatsApp</strong>
+            <small>+54 9 388 573-7477</small>
+          </span>
+        </a>
+        <a class="contact-card contact-card--ig" href="https://instagram.com/jonatanzmby" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Zm5.2-9.6a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM21.9 7c-.1-1.6-.4-3-1.6-4.2C19 1.6 17.6 1.2 16 1.1 14.4 1 9.6 1 8 1.1c-1.6.1-3 .4-4.2 1.6C2.6 4 2.2 5.4 2.1 7 2 8.6 2 13.4 2.1 15c.1 1.6.4 3 1.6 4.2 1.2 1.2 2.6 1.6 4.2 1.7 1.6.1 6.4.1 8 0 1.6-.1 3-.4 4.2-1.7 1.2-1.2 1.6-2.6 1.7-4.2.1-1.6.1-6.4 0-8Zm-2.1 9.8a3.3 3.3 0 0 1-1.8 1.8c-1.3.5-4.3.4-5.7.4s-4.4.1-5.7-.4a3.3 3.3 0 0 1-1.8-1.8c-.5-1.3-.4-4.3-.4-5.7s-.1-4.4.4-5.7a3.3 3.3 0 0 1 1.8-1.8C7.9 3 10.9 3.1 12.3 3.1s4.4-.1 5.7.4a3.3 3.3 0 0 1 1.8 1.8c.5 1.3.4 4.3.4 5.7s.1 4.4-.4 5.7Z"/></svg>
+          <span>
+            <strong>Instagram</strong>
+            <small>@jonatanzmby</small>
+          </span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <img src="assets/logo-blue-rose-chico.png" alt="" width="22" height="28">
+    <p>Blue Rose · <span id="year">2026</span></p>
+  </footer>
+
+  <!-- Botón flotante de WhatsApp (se oculta al llegar a la sección Contacto) -->
+  <a class="fab" href="https://wa.me/5493885737477?text=Hola%20Blue%20Rose!%20Quiero%20consultar%20por%20una%20app" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.3Z"/></svg>
+  </a>
+
+  <!-- Visor de capturas a pantalla completa -->
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lightbox__close" type="button" aria-label="Cerrar">×</button>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Captura anterior">‹</button>
+    <img alt="">
+    <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Captura siguiente">›</button>
+    <p class="lightbox__caption"></p>
+    <p class="lightbox__count"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
